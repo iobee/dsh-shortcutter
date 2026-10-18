@@ -1,0 +1,113 @@
+.sc-root {
+  --sc-bg: light-dark(#fcfcfdf5, #202226f5);
+  --sc-fg: light-dark(#292c34, #e7e8ed);
+  --sc-muted: light-dark(#757a86, #999eaa);
+  --sc-line: light-dark(#252b3819, #e2e8ff1a);
+  --sc-key: light-dark(#f0f1f4, #30333a);
+  --sc-accent: light-dark(#5e6cc0, #a4aff8);
+  --sc-hover: light-dark(#636b7c0b, #c4ccff0a);
+  color: var(--sc-fg);
+  font: 12px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  pointer-events: none;
+}
+.sc-root *, .sc-root *::before, .sc-root *::after { box-sizing: border-box; }
+.sc-root button, .sc-root input { font: inherit; color: inherit; }
+.sc-root button { cursor: pointer; }
+.sc-root button:disabled { cursor: default; opacity: .48; }
+.sc-root button:focus-visible, .sc-root input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+.sc-root kbd { min-width: 23px; height: 23px; padding: 1px 6px; display: inline-flex; justify-content: center; align-items: center; border: 1px solid var(--sc-line); border-radius: 5px; background: var(--sc-key); font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+.sc-anchor { position: fixed; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* A quiet corner dot in our own overlay; host panels keep their original UI. */
+.sc-root .sc-focus-cue {
+  --sc-focus-color: #59616b;
+  position: fixed; height: 11px; z-index: 99; pointer-events: none;
+  opacity: .8; animation: none; transition: none;
+}
+body[data-ds-dark-theme] .sc-root .sc-focus-cue {
+  --sc-focus-color: #a1a5ad;
+}
+.sc-root .sc-focus-cue::before {
+  content: ""; position: absolute; left: 6px; top: 6px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--sc-focus-color);
+  pointer-events: none; animation: none; transition: none;
+}
+.sc-panel, .sc-peek, .sc-notice { position: fixed; z-index: 100; right: 18px; bottom: 18px; pointer-events: auto; background: var(--sc-bg); border: 1px solid var(--sc-line); border-radius: 13px; box-shadow: 0 5px 28px #00000012, 0 0 20px #8293e514; backdrop-filter: blur(16px); }
+.sc-panel { width: min(352px, calc(100vw - 36px)); max-height: calc(100vh - 64px); overflow-y: auto; padding: 13px 14px 9px; animation: sc-appear .13s ease-out; }
+.sc-panel-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.sc-panel-title { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; }
+.sc-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--sc-accent); box-shadow: 0 0 8px #8d9cf375; }
+.sc-muted { color: var(--sc-muted); }
+.sc-icon-button { border: 0; background: transparent; padding: 0 4px; font-size: 15px !important; color: var(--sc-muted) !important; margin-left: auto; border-radius: 5px; }
+.sc-icon-button:hover { background: var(--sc-hover); color: var(--sc-fg) !important; }
+.sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; }
+.sc-key-row { display: flex; align-items: center; gap: 8px; padding: 5px 1px; text-align: left; border: none; background: transparent; border-radius: 5px; min-width: 0; }
+.sc-key-row:hover { background: var(--sc-hover); }
+.sc-key-row > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-keys { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.sc-prefix-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; border-top: 1px solid var(--sc-line); padding-top: 8px; }
+.sc-prefix-row button { display: flex; align-items: center; gap: 8px; border: none; border-radius: 5px; background: transparent; padding: 3px 1px; }
+.sc-prefix-row button:hover { background: var(--sc-hover); }
+.sc-chevron { margin-left: auto; color: var(--sc-muted); }
+.sc-panel-footer { display: flex; justify-content: space-between; gap: 12px; font-size: 10px; color: var(--sc-muted); margin-top: 12px; }
+.sc-peek { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 9px; }
+.sc-notice { max-width: min(420px, calc(100vw - 36px)); bottom: 306px; padding: 10px 14px; font-size: 12px; }
+.sc-dialog { pointer-events: auto; margin: auto; padding: 0; width: min(590px, calc(100vw - 40px)); max-height: min(780px, calc(100vh - 64px)); color: var(--sc-fg); background: var(--sc-bg); border: 1px solid var(--sc-line); border-radius: 16px; box-shadow: 0 20px 90px #0004; }
+.sc-dialog[open] { display: flex; flex-direction: column; }
+.sc-dialog::backdrop { background: #10141c38; backdrop-filter: blur(3px); }
+.sc-dialog-header { display: flex; justify-content: space-between; align-items: center; padding: 22px 24px 17px; border-bottom: 1px solid var(--sc-line); flex-shrink: 0; }
+.sc-eyebrow { color: var(--sc-muted); font-size: 9px; font-weight: 600; letter-spacing: 1.6px; margin-bottom: 5px; }
+.sc-dialog h2 { font-size: 20px; font-weight: 600; line-height: 1.4; margin: 0; }
+.sc-dialog h3 { font-size: 13px; margin: 0 0 7px; font-weight: 600; }
+.sc-dialog p { color: var(--sc-muted); margin: 5px 0 12px; line-height: 1.7; }
+.sc-dialog > :where(:not(.sc-root)) button { padding: 5px 10px; background: transparent; border: 1px solid var(--sc-line); border-radius: 7px; }
+.sc-dialog > :where(:not(.sc-root)) button:hover { background: var(--sc-hover); }
+.sc-dialog-header > button { width: 30px; height: 30px; padding: 0; border: 0; font-size: 24px; color: var(--sc-muted); }
+.sc-settings-body { padding: 20px 24px; overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+.sc-preference-section + .sc-preference-section { border-top: 1px solid var(--sc-line); margin-top: 20px; padding-top: 20px; }
+.sc-native-row { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.sc-native-key { display: inline-flex; padding: 5px 12px; border-radius: 6px; font-weight: 500; min-width: 68px; background: var(--sc-key); }
+.sc-capture { margin-top: 10px; padding: 9px 12px; width: 100%; border: 1px solid var(--sc-accent); border-radius: 6px; background: var(--sc-key); }
+.sc-check { display: flex; align-items: start; gap: 8px; margin: 13px 0; cursor: pointer; }
+.sc-check input { margin: 3px 0 0; accent-color: var(--sc-accent); }
+.sc-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.sc-section-heading h3 { margin: 0; }
+.sc-binding-list { display: grid; gap: 0; }
+.sc-binding-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--sc-line); }
+.sc-binding-row > span { flex: 1; }
+.sc-binding-row input { width: 112px; text-align: center; padding: 5px 8px; background: var(--sc-key); border: 1px solid transparent; border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.sc-binding-row input:hover { border-color: var(--sc-line); }
+.sc-dialog-footer { padding: 14px 24px; display: flex; align-items: center; justify-content: flex-end; gap: 14px; border-top: 1px solid var(--sc-line); flex-shrink: 0; }
+.sc-dialog-footer .sc-status { flex: 1; margin: 0; }
+.sc-status:empty { display: none; }
+.sc-dialog .sc-primary { background: var(--sc-fg); color: var(--sc-bg); border-color: transparent; padding: 7px 14px; flex-shrink: 0; }
+.sc-dialog .sc-primary:hover { opacity: .88; }
+.sc-help-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--sc-line); }
+/* Native DSH settings content only; the host owns the sidebar, scroll and close. */
+.sc-preferences {
+  --sc-fg: var(--dsw-alias-label-primary, light-dark(#292c34, #e7e8ed));
+  --sc-muted: var(--dsw-alias-label-secondary, light-dark(#757a86, #999eaa));
+  --sc-line: var(--dsw-alias-border-l2, light-dark(#252b3819, #e2e8ff1a));
+  --sc-key: var(--dsw-alias-bg-layer-1, light-dark(#f0f1f4, #30333a));
+  --sc-accent: var(--dsw-alias-brand-primary-new-colorprimary-new-color, light-dark(#5e6cc0, #a4aff8));
+  --sc-hover: var(--dsw-alias-interactive-bg-hover, light-dark(#636b7c0b, #c4ccff0a));
+  color: var(--sc-fg); font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.sc-preferences *, .sc-preferences *::before, .sc-preferences *::after { box-sizing: border-box; }
+.sc-preferences h2 { font-size: 18px; font-weight: 500; line-height: 26px; margin: 0 0 24px; }
+.sc-preferences h3 { font-size: 14px; font-weight: 500; margin: 0 0 7px; }
+.sc-preferences p { color: var(--sc-muted); font-size: 13px; line-height: 1.7; margin: 5px 0 12px; }
+.sc-preferences .sc-settings-body { padding: 0; overflow: visible; }
+.sc-preferences button, .sc-preferences input { color: inherit; font: inherit; }
+.sc-preferences button { cursor: pointer; padding: 5px 12px; border: 1px solid var(--sc-line); border-radius: var(--dsw-radius-md, 7px); background: transparent; font-size: 13px; white-space: nowrap; }
+.sc-preferences button:hover { background: var(--sc-hover); }
+.sc-preferences button:disabled { cursor: default; opacity: .48; }
+.sc-preferences button:focus-visible, .sc-preferences input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.sc-preferences .sc-binding-row input { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.sc-preferences .sc-binding-row:last-child { border-bottom: 0; }
+.sc-preferences-footer { padding-top: 16px; margin-top: 20px; border-top: 1px solid var(--sc-line); display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+.sc-preferences-footer .sc-status { flex: 1; margin: 0; }
+.sc-preferences .sc-primary { background: var(--sc-accent); border-color: transparent; color: #fff; padding: 7px 14px; }
+.sc-preferences .sc-primary:hover { background: var(--sc-accent); filter: brightness(.95); }
+@keyframes sc-appear { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .sc-panel, .sc-focus-cue::before { animation: none; } }
+@media (max-width: 480px) { .sc-dialog { width: calc(100vw - 20px); max-height: calc(100vh - 24px); } .sc-dialog-header, .sc-settings-body, .sc-dialog-footer { padding-left: 16px; padding-right: 16px; } }

@@ -1,0 +1,42 @@
+/* A plugin-owned layer. No selectors target pane internals. */
+.study-focus {
+  --marker-ink: #a1a5ad;
+  position: fixed;
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  opacity: .8;
+}
+[data-theme="light"] .study-focus { --marker-ink: #59616b; }
+.study-focus[hidden] { display: none; }
+.study-focus::before {
+  content: "";
+  position: absolute;
+  background: var(--marker-ink);
+  pointer-events: none;
+}
+.study-focus[data-variant="dot"]::before {
+  left: 6px;
+  top: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.study-focus[data-variant="short"]::before {
+  left: 0;
+  top: 8px;
+  width: 2px;
+  height: 20px;
+  border-radius: 1px;
+}
+.study-focus[data-variant="edge"]::before {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+}
+.study-focus[data-variant="edge"][data-edge="bottom"]::before {
+  top: auto;
+  bottom: 0;
+}

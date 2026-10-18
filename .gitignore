@@ -1,0 +1,22 @@
+# Dependencies, build output and install archives
+node_modules/
+lib/
+dist/
+
+# Local application captures, old probes and installation backups
+verification/
+artifacts/*
+!artifacts/focus-markers-study/
+artifacts/focus-markers-study/evidence/
+artifacts/focus-markers-study/design-qa.md
+design-qa.md
+
+# Machine-local tooling and credentials
+.claude/
+.codex/
+.agents/
+.DS_Store
+.env
+.env.*
+*.log
+*.tmp

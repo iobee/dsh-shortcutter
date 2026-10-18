@@ -1,0 +1,47 @@
+/* Preview controls live outside the preserved host workspace. */
+.lab { gap: 16px; }
+.lab-title { flex: none; color: var(--secondary); }
+.study-variants { display: flex; align-items: center; gap: 3px; }
+.study-variants button {
+  display: flex; align-items: center; gap: 7px;
+  height: 28px; padding: 0 10px; border-radius: 5px;
+  font-size: 11px; white-space: nowrap; color: var(--muted);
+}
+.study-variants button[aria-pressed="true"] { background: var(--selected); color: var(--text); }
+.study-key { font-size: 10px; color: var(--muted); }
+.lab-tools { gap: 12px; }
+.study-control { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 10px; white-space: nowrap; }
+.study-control select {
+  font: inherit; font-size: 11px; color: var(--secondary); background: var(--panel);
+  border: 1px solid var(--line-strong); border-radius: 5px;
+  padding: 5px 6px; height: 28px;
+}
+.study-control select:disabled { opacity: .35; cursor: default; }
+.mode-toggle { border: 1px solid var(--line-strong); min-width: 68px; justify-content: center; }
+.lab-tools button:disabled { opacity: .4; cursor: default; }
+.lab-tools button[hidden] { display: none; }
+.lab :is(button,select):focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+#setting-auto-hints { display: none; }
+.study-spec { color: var(--secondary); }
+@media (max-width: 1050px) {
+  .lab { gap: 8px; padding: 0 12px; }
+  .lab-tools { gap: 7px; }
+  .study-variants button { padding: 0 7px; }
+  .study-control > span { display: none; }
+}
+@media (max-width: 850px) {
+  .lab { height: 82px; flex-wrap: wrap; align-content: center; row-gap: 5px; }
+  .lab-title { width: 60px; }
+  .lab-tools { width: 100%; margin-left: 0; }
+  .workspace { height: calc(100dvh - 114px); }
+  .study-control > span { display: inline; }
+  .study-spec { display: none; }
+}
+@media (max-width: 550px) {
+  .lab-title { font-size: 11px; width: 52px; }
+  .study-variants { gap: 0; }
+  .study-variants button { padding: 0 6px; gap: 4px; }
+  .lab-tools { gap: 6px; }
+  .study-control > span { display: none; }
+  .status-end > span { display: none; }
+}
