@@ -1,6 +1,6 @@
 {
   "name": "dsh-shortcutter",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "private": true,
   "description": "DSH Shortcutter — 键盘导航、which-key 提示和可自定义快捷键",
   "type": "module",
@@ -17,6 +17,8 @@
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
+    "prepare": "node scripts/build.mjs",
+    "test:install": "node scripts/verify-git-install.mjs",
     "test": "node --test test/*.test.mjs",
     "test:browser": "node scripts/performance.mjs --checks-only",
     "perf": "node scripts/performance.mjs",
