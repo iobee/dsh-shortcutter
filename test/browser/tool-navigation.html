@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>工具顶部返回导航回归</title>
+<style>body{font:14px/1.6 system-ui;margin:24px}#fixture{max-width:800px;border:1px solid #aaa;padding:20px}[data-dockkit-strip],form{display:flex;gap:16px;background:#eee;padding:12px;margin:8px}input,button,textarea{font:inherit}pre{white-space:pre-wrap}.blank{min-width:60px;min-height:30px}.xterm{background:#eee;padding:20px}</style>
+<h1>工具顶部返回导航回归</h1><p>直接加载生产模块；独立 DOM 夹具，不接触 DSH 数据。</p>
+<button id="run">运行回归</button><p id="status" role="status">等待运行</p><div id="fixture"></div><pre id="result"></pre>
+<script type="module">
+import {navigationToolHeader,observeToolHeaderNavigation} from '../../src/tool-navigation.js';
+import {readNavigationContext} from '../../src/default-navigation.js';
+import {toolHandoffStatus} from '../../src/tool-tabs.js';
+const fixture=document.querySelector('#fixture'),result=document.querySelector('#result'),status=document.querySelector('#status');
+const node=id=>fixture.querySelector('#'+id),wait=()=>new Promise(resolve=>setTimeout(resolve,20));
+let dispose,enabled,blocked,session,kind,calls,order,results;
+const expect=(value,message)=>{if(!value)throw Error(message);};
+function reset(){
+  dispose?.();enabled=true;blocked=false;session='a';kind='browser';calls=[];order=[];
+  fixture.innerHTML=`<input id="outside" value="draft"><div id="anchor" tabindex="-1">导航</div>
+  <section data-sidebar-right-session="a"><section data-dockkit-pane="pane" tabindex="-1">
+  <div data-dockkit-strip="pane" role="tablist" id="strip"><div role="tab" data-dockkit-tab="tab" tabindex="0" id="tab"><span id="title">终端</span><svg aria-hidden="true" id="icon"></svg><input id="rename" value="zsh"><button id="close">关闭</button></div><div id="fill" class="blank"></div><button id="add">新建</button></div>
+  <div data-sidebar-right-tab="tab"><div><form id="toolbar"><button id="back" type="button">返回</button><input id="address" value="https://example.test/draft"><span id="toolbar-blank" class="blank"></span></form><div class="xterm"><textarea id="terminal">draft</textarea></div><div data-sidebar-browser-frame tabindex="0" id="page">网页内容</div><div id="body" class="blank">内容空白</div></div></div>
+  </section><div data-dockkit-float="floating"><header data-dockkit-float-grip="floating" id="float">悬浮标签</header></div></section>`;
+  node('anchor').focus();
+  dispose=observeToolHeaderNavigation(document,{
+    enabled:()=>enabled,
+    blocked:()=>blocked||!!readNavigationContext(document).scope||['menu','modal','inactive','composition'].includes(readNavigationContext(document).reason),
+    headerFor:element=>navigationToolHeader(element,{sessionId:session,kind}),
+    capture:element=>({session,header:navigationToolHeader(element,{sessionId:session,kind})?.id,source:element.id}),
+    current:target=>target.session===session&&!!node(target.header),
+    navigate:target=>{calls.push(target.source);order.push('navigate');node('anchor').focus();}
+  });
+}
+function pointer(id,type,changes={}){const event=new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:1,pointerType:'mouse',button:0,isPrimary:true,clientX:10,clientY:10,...changes});node(id).dispatchEvent(event);return event;}
+function click(id,changes={}){const event=new MouseEvent('click',{bubbles:true,cancelable:true,button:0,detail:1,clientX:10,clientY:10,...changes});node(id).dispatchEvent(event);return event;}
+function gesture(id,changes={}){pointer(id,'pointerdown',changes);pointer(id,'pointerup',changes);return click(id,changes);}
+async function check(name,fn){reset();try{await fn();results.push({name,pass:true});}catch(error){results.push({name,pass:false,error:String(error)});}}
+document.querySelector('#run').onclick=async()=>{
+  results=[];
+  for(const id of ['title','icon','fill','toolbar-blank','float'])await check('header click returns to navigation: '+id,async()=>{node('terminal').focus();gesture(id);expect(!calls.length,'Did not wait for host click');await wait();expect(calls.length===1&&document.activeElement===node('anchor'),'Did not navigate');});
+  await check('host selection and autofocus finish before stopped-propagation tab click is handled',async()=>{node('tab').onclick=event=>{event.stopPropagation();order.push('host');node('terminal').focus();};gesture('title');await wait();expect(order.join(',')==='host,navigate','Incorrect order');});
+  await check('host replaces selected tab chrome during click without losing the captured navigation intent',async()=>{node('tab').onclick=event=>{event.stopPropagation();const replacement=node('strip').cloneNode(true);node('strip').replaceWith(replacement);node('terminal').focus();};gesture('title');await wait();expect(calls.length===1&&document.activeElement===node('anchor'),'Detached click node lost navigation');});
+  for(const id of ['address','rename','close','add','back','terminal','page','body','outside'])await check('native control/content is not intercepted: '+id,async()=>{node(id).focus();const before=document.activeElement,event=gesture(id);await wait();expect(!calls.length&&!event.defaultPrevented&&document.activeElement===before,'Native operation changed');});
+  for(const option of [{button:2},{button:1},{metaKey:true},{ctrlKey:true},{altKey:true},{shiftKey:true},{pointerType:'touch'},{isPrimary:false},{detail:0},{detail:2}])await check('non-primary gesture excluded '+JSON.stringify(option),async()=>{gesture('title',option);await wait();expect(!calls.length,'Unexpected navigation');});
+  await check('drag that returns to its starting point is still excluded',async()=>{pointer('title','pointerdown');pointer('title','pointermove',{clientX:18});pointer('title','pointermove');click('title');await wait();expect(!calls.length,'Drag became navigation');});
+  await check('different header on mouse-up is excluded',async()=>{pointer('title','pointerdown');click('toolbar-blank');await wait();expect(!calls.length,'Changed header navigated');});
+  for(const type of ['pointercancel','dragstart','wheel','keydown','contextmenu','dblclick','compositionstart'])await check(type+' cancels queued navigation',async()=>{gesture('title');node('title').dispatchEvent(new Event(type,{bubbles:true}));await wait();expect(!calls.length,'Not cancelled');});
+  await check('another pointerdown cancels queued navigation',async()=>{gesture('title');pointer('address','pointerdown');node('address').focus();await wait();expect(!calls.length&&document.activeElement===node('address'),'Input focus stolen');});
+  await check('host prevented click is respected even after capture',async()=>{node('tab').onclick=event=>event.preventDefault();gesture('title');await wait();expect(!calls.length,'Prevented click navigated');});
+  await check('host prevented pointerdown is respected',async()=>{node('tab').onpointerdown=event=>event.preventDefault();gesture('title');await wait();expect(!calls.length,'Prevented pointer navigated');});
+  await check('new native menu cancels queued navigation',async()=>{node('tab').onclick=()=>{const menu=document.createElement('div');menu.role='menu';menu.textContent='菜单';fixture.append(menu);};gesture('title');await wait();expect(!calls.length,'Menu focus stolen');});
+  await check('opt-out remains effective',async()=>{enabled=false;gesture('title');await wait();expect(!calls.length,'Disabled navigation fired');});
+  await check('session switch cancels queued navigation',async()=>{gesture('title');session='b';await wait();expect(!calls.length,'Stale session navigated');});
+  await check('removed header cancels queued navigation',async()=>{gesture('title');node('strip').remove();await wait();expect(!calls.length,'Removed tab navigated');});
+  await check('non-browser form is excluded',async()=>{kind='terminal';gesture('toolbar-blank');await wait();expect(!calls.length,'Non-browser content form navigated');});
+  await check('dispose removes listeners and abandons queued work',async()=>{gesture('title');dispose();await wait();gesture('title');await wait();expect(!calls.length,'Disposed observer acted');});
+  await check('rename input blocks deferred tool handoff',()=>{node('rename').focus();expect(toolHandoffStatus({request:{sessionId:'a',tabId:'tab'},sessionId:'a',activeTabId:'tab',current:true,reason:'input',ownsFocus:true,editingHeader:!!document.activeElement.closest('[data-dockkit-strip]')})==='cancel','Rename stolen');});
+  await check('no repeated focus after completed header click',async()=>{gesture('title');await wait();node('address').focus();await wait();expect(calls.length===1&&document.activeElement===node('address')&&node('address').value==='https://example.test/draft','Repeated focus or draft changed');});
+  dispose();status.textContent=`${results.filter(x=>x.pass).length} / ${results.length} 通过`;
+  result.textContent=JSON.stringify({passed:results.filter(x=>x.pass).length,total:results.length,results},null,2);
+};
+reset();
+</script>

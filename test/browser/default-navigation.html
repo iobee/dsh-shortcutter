@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>默认导航状态回归</title>
+<style>
+body{font:14px/1.6 system-ui;margin:24px;background:#f7f7f8;color:#26282d}button,input,select{font:inherit;margin:4px;padding:7px 12px}#fixture{padding:20px;background:white;border:1px solid #ddd;max-width:850px}[contenteditable],.xterm,iframe{border:1px solid #aaa;padding:12px}.blank{height:50px;background:#eee}dialog,[role=dialog]{padding:20px;background:#fff;border:1px solid #aaa}pre{white-space:pre-wrap}#result{max-width:980px}#status{font-weight:600}
+</style>
+<h1>默认导航状态回归</h1>
+<p>生产模块直接加载。状态观察不移动 DOM 焦点；独立夹具不修改 DSH 配置。</p>
+<button id="run">运行回归</button><button id="reset">重置手动测试</button>
+<p id="status" role="status"></p>
+<div id="fixture"></div><pre id="result"></pre>
+<script type="module">
+import {readNavigationContext,observeNavigationContext,nativeNavigationKey} from '../../src/default-navigation.js';
+const fixture=document.querySelector('#fixture'), result=document.querySelector('#result'), status=document.querySelector('#status');
+let observer, state, enabled=true, events=[], saved=[], reads=0;
+const node=id=>fixture.querySelector('#'+id), wait=()=>new Promise(r=>setTimeout(r,20));
+function reset(){
+  observer?.dispose();enabled=true;events=[];
+  fixture.innerHTML=`<input id="input" aria-label="测试输入框" value="草稿保留"><button id="button">测试按钮</button><input id="check" type="checkbox" aria-label="测试复选框"><input id="readonly" readonly value="只读值"><textarea id="textarea" aria-label="多行输入"></textarea><select id="select"><option>选择</option></select><div id="editor" contenteditable="true">编辑内容</div><div id="roleinput" role="textbox" tabindex="0">自定义输入</div><a id="link" href="#fixture">测试链接</a><div class="blank" id="blank">对话空白区域</div><div class="xterm" id="terminal" tabindex="0">终端区域<textarea id="terminal-input"></textarea></div><iframe id="frame" title="测试网页" srcdoc="<input placeholder='网页输入'><p>网页内容</p>"></iframe><div id="browser" data-sidebar-browser-frame tabindex="0">网页容器</div><div id="monaco" class="monaco-editor" tabindex="0">代码编辑器</div><div id="approval" data-approval-key tabindex="0">审批控件</div>`;
+  document.body.tabIndex=-1; document.body.focus();
+  observer=observeNavigationContext(document,{read:options=>{reads++;return readNavigationContext(document,{enabled,...options});},changed:next=>{state=next;events.push(next.reason);status.textContent=`${next.navigating?'导航态':'内容/原生操作'} · ${next.reason} · 焦点 ${next.active?.id||next.active?.tagName} · ${next.scope?'设置页':'普通页面'}`;}});
+}
+function settings(){const el=document.createElement('div');el.id='settings';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.dataset.shortcutModal='settings';el.tabIndex=-1;el.innerHTML='<button id="settings-button">设置按钮</button><input id="settings-input" value="设置草稿"><div id="settings-blank">设置空白</div>';fixture.append(el);return el;}
+const expect=(condition,message)=>{if(!condition)throw Error(message);};
+const navigates=()=>expect(state.navigating,'Expected navigation, got '+state.reason);
+const content=reason=>expect(!state.navigating&&state.reason===reason,'Expected '+reason+', got '+state.reason);
+document.querySelector('#reset').onclick=()=>{reset();result.textContent='';};
+document.querySelector('#run').onclick=async()=>{
+  await wait();saved=[];
+  const check=async(name,fn)=>{reset();try{await fn();saved.push({name,pass:true});}catch(e){saved.push({name,pass:false,error:String(e)});}};
+  await check('initial plain page defaults to navigation without moving focus',()=>{navigates();expect(document.activeElement===document.body,'Focus moved');});
+  for(const id of ['input','textarea','select','editor','roleinput','readonly']) await check('input ownership: '+id,()=>{node(id).focus();content('input');expect(document.activeElement===node(id),'Focus stolen');});
+  await check('blur without mouse restores navigation',async()=>{node('input').focus();node('input').blur();await wait();navigates();expect(document.activeElement===document.body,'Focus moved');});
+  await check('input to input has no navigation flash',()=>{node('input').focus();events=[];node('textarea').focus();content('input');expect(!events.includes('navigation'),'Transient navigation');});
+  for(const id of ['button','check','link']) await check('native non-input control stays focused in navigation: '+id,()=>{node(id).focus();navigates();expect(document.activeElement===node(id),'Control focus moved');expect(nativeNavigationKey(node(id),'Space'),'Space not reserved');});
+  await check('ordinary surface leaves native Space available',()=>expect(!nativeNavigationKey(node('blank'),'Space'),'Blank Space reserved'));
+  await check('Tab and Enter are not plugin bindings',()=>{expect(!nativeNavigationKey(node('button'),'KeyG'),'Navigation letter blocked');});
+  for(const id of ['terminal','terminal-input','frame','browser','monaco','approval']) await check('embedded content excluded: '+id,()=>{node(id).focus();content('content');});
+  await check('return from terminal to ordinary button restores navigation',()=>{node('terminal-input').focus();node('button').focus();navigates();expect(document.activeElement===node('button'),'Button focus moved');});
+  await check('settings page is navigation with native button focus',async()=>{const panel=settings();node('settings-button').focus();await wait();navigates();expect(state.scope===panel&&document.activeElement===node('settings-button'),'Settings scope or focus wrong');});
+  await check('settings input exits and blur restores navigation',async()=>{const panel=settings();node('settings-input').focus();content('input');node('settings-input').blur();await wait();navigates();expect(state.scope===panel,'Settings scope lost');});
+  await check('settings button Space reserved for native action',async()=>{settings();node('settings-button').focus();await wait();expect(nativeNavigationKey(document.activeElement,'Space'),'Space intercepted');});
+  await check('settings opens without focus event',async()=>{const panel=settings();await wait();navigates();expect(state.scope===panel,'Mutation not observed');});
+  await check('settings section removing focused input restores navigation',async()=>{settings();node('settings-input').focus();node('settings-input').remove();await wait();navigates();});
+  await check('closing settings restores page scope',async()=>{const panel=settings();node('settings-button').focus();panel.remove();await wait();navigates();expect(!state.scope,'Stale settings scope');});
+  for(const role of ['menu','listbox']) await check(role+' suspends navigation and restores after dismissal',async()=>{settings();node('settings-button').focus();const menu=document.createElement('div');menu.setAttribute('role',role);menu.textContent='原生菜单';fixture.append(menu);await wait();content('menu');menu.remove();await wait();navigates();});
+  await check('hidden menu does not suppress navigation',async()=>{const menu=document.createElement('div');menu.role='menu';menu.hidden=true;fixture.append(menu);await wait();navigates();});
+  await check('nested ordinary modal preserves native operation',async()=>{settings();node('settings-button').focus();const modal=document.createElement('div');modal.role='dialog';modal.setAttribute('aria-modal','true');modal.textContent='确认';fixture.append(modal);await wait();content('modal');modal.remove();await wait();navigates();});
+  await check('native dialog blocks underlying settings',async()=>{settings();const modal=document.createElement('dialog');modal.textContent='原生确认';fixture.append(modal);modal.showModal();await wait();content('modal');modal.close();await wait();navigates();});
+  await check('plugin settings follows same input rule',async()=>{const modal=document.createElement('dialog');modal.dataset.scNavigationDialog='';modal.innerHTML='<button>关闭</button><input id="plugin-input">';fixture.append(modal);modal.showModal();await wait();navigates();expect(state.scope===modal,'Plugin scope missing');node('plugin-input').focus();content('input');modal.close();});
+  await check('composition suspends navigation until completion',async()=>{document.body.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));content('composition');document.body.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));await wait();navigates();});
+  await check('composition cancelled by focus leaving input does not strand navigation',async()=>{node('input').focus();node('input').dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));content('composition');node('button').focus();navigates();});
+  await check('composition input removed without end restores navigation',async()=>{node('input').focus();node('input').dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));node('input').remove();await wait();navigates();});
+  await check('composition transferred to another input remains content',async()=>{node('input').focus();node('input').dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));node('textarea').focus();content('input');});
+  await check('auto-navigation opt-out preserved',()=>{enabled=false;observer.refresh();content('disabled');enabled=true;observer.refresh();navigates();});
+  await check('typing and selection retained across observation',async()=>{node('input').focus();node('input').setSelectionRange(1,3);observer.refresh();await wait();expect(node('input').value==='草稿保留'&&node('input').selectionStart===1&&node('input').selectionEnd===3,'Draft or selection changed');});
+  await check('focus removal is observed without click',async()=>{node('input').focus();node('input').remove();await wait();navigates();});
+  await check('unrelated output blocks do not re-read navigation',async()=>{await wait();reads=0;for(let i=0;i<5;i++){const p=document.createElement('p');p.textContent='streamed output';node('blank').append(p);await wait();}expect(reads===0,'Unrelated output caused '+reads+' reads');navigates();});
+  await check('nested menu insertion is observed without focus movement',async()=>{const wrapper=document.createElement('div');wrapper.innerHTML='<div><div role="menu">菜单</div></div>';node('blank').append(wrapper);await wait();content('menu');wrapper.remove();await wait();navigates();});
+  await check('an empty menu becoming visible through children is observed',async()=>{const menu=document.createElement('span');menu.role='menu';menu.style.display='contents';fixture.append(menu);await wait();navigates();menu.style.display='block';menu.append(document.createTextNode('菜单'));await wait();content('menu');menu.remove();await wait();navigates();});
+  await check('changing input ownership by attribute is observed',async()=>{node('blank').tabIndex=0;node('blank').focus();navigates();node('blank').setAttribute('contenteditable','true');await wait();content('input');node('blank').setAttribute('contenteditable','false');await wait();navigates();});
+  await check('observer cleanup removes listeners',async()=>{const count=events.length;observer.dispose();node('input').focus();await wait();expect(events.length===count,'Listener leaked');});
+  reset();result.textContent=JSON.stringify({passed:saved.filter(x=>x.pass).length,total:saved.length,results:saved},null,2);
+};
+reset();
+</script>

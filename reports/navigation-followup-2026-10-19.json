@@ -1,0 +1,734 @@
+{
+  "generatedAt": "2026-10-19T01:33:52.631Z",
+  "environment": {
+    "browser": "152.0.7977.83",
+    "react": "18.3.1",
+    "node": "v26.3.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M5 Pro",
+    "viewport": "1280x800",
+    "existingOutputNodes": 2000
+  },
+  "sources": {
+    "baselineRef": "1ba92ada47627032d30d728469a3a38710a278b0",
+    "baselineSHA256": "0da9de24349903077c8b659e464287573073a23cbd38846bc700cab0d1c2da52",
+    "candidateSHA256": "4271d574ae8bfec4565725a8c48af46210ff38b5922b51b344cab82629437344"
+  },
+  "method": {
+    "timing": "Uninstrumented production React and plugin. CDP TaskDuration / ScriptDuration deltas in milliseconds; includes fixture event dispatch and DOM work, excludes idle waits. One warm-up pair discarded, measured pairs alternate order.",
+    "counts": "Separate instrumented run; publish counts actual subscriber notifications, not attempted calls. 100 updates are separate tasks, not one synchronous batch.",
+    "scope": "Isolated browser with mock public host stores and 2000 output paragraphs; not DSH end-to-end FPS, memory, power or CPU percentage.",
+    "measuredPairs": 15
+  },
+  "checks": [
+    {
+      "suite": "default-navigation",
+      "passed": 45,
+      "total": 45,
+      "results": [
+        {
+          "name": "initial plain page defaults to navigation without moving focus",
+          "pass": true
+        },
+        {
+          "name": "input ownership: input",
+          "pass": true
+        },
+        {
+          "name": "input ownership: textarea",
+          "pass": true
+        },
+        {
+          "name": "input ownership: select",
+          "pass": true
+        },
+        {
+          "name": "input ownership: editor",
+          "pass": true
+        },
+        {
+          "name": "input ownership: roleinput",
+          "pass": true
+        },
+        {
+          "name": "input ownership: readonly",
+          "pass": true
+        },
+        {
+          "name": "blur without mouse restores navigation",
+          "pass": true
+        },
+        {
+          "name": "input to input has no navigation flash",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: button",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: check",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: link",
+          "pass": true
+        },
+        {
+          "name": "ordinary surface leaves native Space available",
+          "pass": true
+        },
+        {
+          "name": "Tab and Enter are not plugin bindings",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: terminal",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: terminal-input",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: frame",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: browser",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: monaco",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: approval",
+          "pass": true
+        },
+        {
+          "name": "return from terminal to ordinary button restores navigation",
+          "pass": true
+        },
+        {
+          "name": "settings page is navigation with native button focus",
+          "pass": true
+        },
+        {
+          "name": "settings input exits and blur restores navigation",
+          "pass": true
+        },
+        {
+          "name": "settings button Space reserved for native action",
+          "pass": true
+        },
+        {
+          "name": "settings opens without focus event",
+          "pass": true
+        },
+        {
+          "name": "settings section removing focused input restores navigation",
+          "pass": true
+        },
+        {
+          "name": "closing settings restores page scope",
+          "pass": true
+        },
+        {
+          "name": "menu suspends navigation and restores after dismissal",
+          "pass": true
+        },
+        {
+          "name": "listbox suspends navigation and restores after dismissal",
+          "pass": true
+        },
+        {
+          "name": "hidden menu does not suppress navigation",
+          "pass": true
+        },
+        {
+          "name": "nested ordinary modal preserves native operation",
+          "pass": true
+        },
+        {
+          "name": "native dialog blocks underlying settings",
+          "pass": true
+        },
+        {
+          "name": "plugin settings follows same input rule",
+          "pass": true
+        },
+        {
+          "name": "composition suspends navigation until completion",
+          "pass": true
+        },
+        {
+          "name": "composition cancelled by focus leaving input does not strand navigation",
+          "pass": true
+        },
+        {
+          "name": "composition input removed without end restores navigation",
+          "pass": true
+        },
+        {
+          "name": "composition transferred to another input remains content",
+          "pass": true
+        },
+        {
+          "name": "auto-navigation opt-out preserved",
+          "pass": true
+        },
+        {
+          "name": "typing and selection retained across observation",
+          "pass": true
+        },
+        {
+          "name": "focus removal is observed without click",
+          "pass": true
+        },
+        {
+          "name": "unrelated output blocks do not re-read navigation",
+          "pass": true
+        },
+        {
+          "name": "nested menu insertion is observed without focus movement",
+          "pass": true
+        },
+        {
+          "name": "an empty menu becoming visible through children is observed",
+          "pass": true
+        },
+        {
+          "name": "changing input ownership by attribute is observed",
+          "pass": true
+        },
+        {
+          "name": "observer cleanup removes listeners",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "suite": "tool-navigation",
+      "passed": 46,
+      "total": 46,
+      "results": [
+        {
+          "name": "header click returns to navigation: title",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: icon",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: fill",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: toolbar-blank",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: float",
+          "pass": true
+        },
+        {
+          "name": "host selection and autofocus finish before stopped-propagation tab click is handled",
+          "pass": true
+        },
+        {
+          "name": "host replaces selected tab chrome during click without losing the captured navigation intent",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: address",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: rename",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: close",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: add",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: back",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: terminal",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: page",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: body",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: outside",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"button\":2}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"button\":1}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"metaKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"ctrlKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"altKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"shiftKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"pointerType\":\"touch\"}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"isPrimary\":false}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"detail\":0}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"detail\":2}",
+          "pass": true
+        },
+        {
+          "name": "drag that returns to its starting point is still excluded",
+          "pass": true
+        },
+        {
+          "name": "different header on mouse-up is excluded",
+          "pass": true
+        },
+        {
+          "name": "pointercancel cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "dragstart cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "wheel cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "keydown cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "contextmenu cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "dblclick cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "compositionstart cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "another pointerdown cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "host prevented click is respected even after capture",
+          "pass": true
+        },
+        {
+          "name": "host prevented pointerdown is respected",
+          "pass": true
+        },
+        {
+          "name": "new native menu cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "opt-out remains effective",
+          "pass": true
+        },
+        {
+          "name": "session switch cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "removed header cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "non-browser form is excluded",
+          "pass": true
+        },
+        {
+          "name": "dispose removes listeners and abandons queued work",
+          "pass": true
+        },
+        {
+          "name": "rename input blocks deferred tool handoff",
+          "pass": true
+        },
+        {
+          "name": "no repeated focus after completed header click",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "suite": "plugin-integration",
+      "passed": 18,
+      "total": 18,
+      "results": [
+        {
+          "name": "initial ready session takes navigation once and releases the session subscription",
+          "pass": true
+        },
+        {
+          "name": "cold session waits for openState, ignores unrelated updates, then completes the handoff",
+          "pass": true
+        },
+        {
+          "name": "session error readiness also completes the one-shot handoff",
+          "pass": true
+        },
+        {
+          "name": "input, repeat, composing, modified and already-handled keys preserve the draft without scans",
+          "pass": true
+        },
+        {
+          "name": "unclaimed Escape returns from the conversation input",
+          "pass": true
+        },
+        {
+          "name": "running conversation retains the native double-Escape path",
+          "pass": true
+        },
+        {
+          "name": "g prefix, cancellation and help remain visible with deduplicated publication",
+          "pass": true
+        },
+        {
+          "name": "menu insertion suspends keys without focus movement and removal resumes navigation",
+          "pass": true
+        },
+        {
+          "name": "settings and nested native modal retain their navigation boundaries",
+          "pass": true
+        },
+        {
+          "name": "composition target removal recovers navigation without a compositionend",
+          "pass": true
+        },
+        {
+          "name": "new terminal waits for writable state and a mounted view (autofocus=false)",
+          "pass": true
+        },
+        {
+          "name": "new terminal waits for writable state and a mounted view (autofocus=true)",
+          "pass": true
+        },
+        {
+          "name": "typing in a different input cancels a pending tool handoff",
+          "pass": true
+        },
+        {
+          "name": "stale tool occurrence cannot complete a pending handoff",
+          "pass": true
+        },
+        {
+          "name": "bracket tab switch and close keep navigation on the remaining current tool",
+          "pass": true
+        },
+        {
+          "name": "disabled auto-navigation can still be entered explicitly",
+          "pass": true
+        },
+        {
+          "name": "no-op clicks do not re-render, while entering a different area still updates the cue",
+          "pass": true
+        },
+        {
+          "name": "dispose removes observers, subscriptions and scheduled work",
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "before": {
+      "navigation": {
+        "navigationRead": 40,
+        "documentQueryAll": 80,
+        "publish": 40,
+        "panelRender": 40,
+        "cueRender": 66,
+        "navigationMutationBatch": 40,
+        "cueMeasure": 40,
+        "columns": 40
+      },
+      "afterDispose": {}
+    },
+    "after": {
+      "navigation": {
+        "navigationRead": 40,
+        "documentQueryAll": 80,
+        "publish": 40,
+        "panelRender": 40,
+        "cueRender": 68,
+        "navigationMutationBatch": 40,
+        "cueMeasure": 40,
+        "columns": 40
+      },
+      "afterDispose": {}
+    }
+  },
+  "timings": {
+    "before": [
+      {
+        "navigation": {
+          "taskMs": 81.7,
+          "scriptMs": 13.498,
+          "layoutMs": 23.179000000000002
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 99.121,
+          "scriptMs": 17.374000000000002,
+          "layoutMs": 24.427999999999997
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 98.195,
+          "scriptMs": 17.168999999999997,
+          "layoutMs": 25.127
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 92.774,
+          "scriptMs": 15.735000000000003,
+          "layoutMs": 24.366
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 99.649,
+          "scriptMs": 16.921,
+          "layoutMs": 24.88
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 99.576,
+          "scriptMs": 17.408,
+          "layoutMs": 26.684
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 94.375,
+          "scriptMs": 16.616000000000003,
+          "layoutMs": 24.385
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 94.545,
+          "scriptMs": 15.906,
+          "layoutMs": 24.458000000000002
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 102.069,
+          "scriptMs": 17.703,
+          "layoutMs": 26.525
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 93.818,
+          "scriptMs": 16.427999999999997,
+          "layoutMs": 24.249
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 94.881,
+          "scriptMs": 16.059,
+          "layoutMs": 23.92
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 98.759,
+          "scriptMs": 16.808,
+          "layoutMs": 24.96
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 94.345,
+          "scriptMs": 16.355,
+          "layoutMs": 24.614
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 75.416,
+          "scriptMs": 12.947999999999999,
+          "layoutMs": 19.757
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 85.24200000000002,
+          "scriptMs": 14.517000000000001,
+          "layoutMs": 22.471
+        }
+      }
+    ],
+    "after": [
+      {
+        "navigation": {
+          "taskMs": 92.038,
+          "scriptMs": 15.520000000000001,
+          "layoutMs": 23.773
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 93.206,
+          "scriptMs": 16.003,
+          "layoutMs": 24.327
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 95.55000000000001,
+          "scriptMs": 17.14,
+          "layoutMs": 22.471
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 100.048,
+          "scriptMs": 17.191000000000003,
+          "layoutMs": 24.861
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 98.32100000000001,
+          "scriptMs": 16.907000000000004,
+          "layoutMs": 25.492
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 98.908,
+          "scriptMs": 16.979999999999997,
+          "layoutMs": 24.884
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 94.77100000000002,
+          "scriptMs": 16.279999999999998,
+          "layoutMs": 24.289
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 103.143,
+          "scriptMs": 17.550000000000004,
+          "layoutMs": 25.804000000000002
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 93.919,
+          "scriptMs": 15.503000000000002,
+          "layoutMs": 24.531000000000002
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 92.528,
+          "scriptMs": 15.830999999999998,
+          "layoutMs": 24.195
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 82.79599999999999,
+          "scriptMs": 14.154000000000002,
+          "layoutMs": 22.630000000000003
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 95.388,
+          "scriptMs": 16.392,
+          "layoutMs": 24.561
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 92.13,
+          "scriptMs": 15.885,
+          "layoutMs": 23.767
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 95.16899999999998,
+          "scriptMs": 16.235999999999997,
+          "layoutMs": 24.795
+        }
+      },
+      {
+        "navigation": {
+          "taskMs": 89.10300000000001,
+          "scriptMs": 15.215,
+          "layoutMs": 23.717
+        }
+      }
+    ]
+  },
+  "errors": [],
+  "scenarios": [
+    {
+      "id": "navigation",
+      "label": "20 次 g / Esc 提示开合"
+    }
+  ]
+}

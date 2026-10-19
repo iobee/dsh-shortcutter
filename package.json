@@ -18,6 +18,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.mjs",
+    "test:browser": "node scripts/performance.mjs --checks-only",
+    "perf": "node scripts/performance.mjs",
     "pack:local": "npm run build && npm pack --ignore-scripts --pack-destination dist"
   },
   "dsh": {

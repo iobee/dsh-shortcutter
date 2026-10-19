@@ -1,0 +1,1185 @@
+{
+  "generatedAt": "2026-10-19T01:30:25.857Z",
+  "environment": {
+    "browser": "152.0.7977.83",
+    "react": "18.3.1",
+    "node": "v26.3.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M5 Pro",
+    "viewport": "1280x800",
+    "existingOutputNodes": 2000
+  },
+  "sources": {
+    "baselineRef": "1ba92ada47627032d30d728469a3a38710a278b0",
+    "baselineSHA256": "0da9de24349903077c8b659e464287573073a23cbd38846bc700cab0d1c2da52",
+    "candidateSHA256": "1cf68ec3975ddc4af4b3686dbb73be5cea80148aa1fea3c4cf7cec1d76668007"
+  },
+  "method": {
+    "timing": "Uninstrumented production React and plugin. CDP TaskDuration / ScriptDuration deltas in milliseconds; includes fixture event dispatch and DOM work, excludes idle waits. One warm-up pair discarded, measured pairs alternate order.",
+    "counts": "Separate instrumented run; publish counts actual subscriber notifications, not attempted calls. 100 updates are separate tasks, not one synchronous batch.",
+    "scope": "Isolated browser with mock public host stores and 2000 output paragraphs; not DSH end-to-end FPS, memory, power or CPU percentage.",
+    "measuredPairs": 7
+  },
+  "checks": [
+    {
+      "suite": "default-navigation",
+      "passed": 45,
+      "total": 45,
+      "results": [
+        {
+          "name": "initial plain page defaults to navigation without moving focus",
+          "pass": true
+        },
+        {
+          "name": "input ownership: input",
+          "pass": true
+        },
+        {
+          "name": "input ownership: textarea",
+          "pass": true
+        },
+        {
+          "name": "input ownership: select",
+          "pass": true
+        },
+        {
+          "name": "input ownership: editor",
+          "pass": true
+        },
+        {
+          "name": "input ownership: roleinput",
+          "pass": true
+        },
+        {
+          "name": "input ownership: readonly",
+          "pass": true
+        },
+        {
+          "name": "blur without mouse restores navigation",
+          "pass": true
+        },
+        {
+          "name": "input to input has no navigation flash",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: button",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: check",
+          "pass": true
+        },
+        {
+          "name": "native non-input control stays focused in navigation: link",
+          "pass": true
+        },
+        {
+          "name": "ordinary surface leaves native Space available",
+          "pass": true
+        },
+        {
+          "name": "Tab and Enter are not plugin bindings",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: terminal",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: terminal-input",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: frame",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: browser",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: monaco",
+          "pass": true
+        },
+        {
+          "name": "embedded content excluded: approval",
+          "pass": true
+        },
+        {
+          "name": "return from terminal to ordinary button restores navigation",
+          "pass": true
+        },
+        {
+          "name": "settings page is navigation with native button focus",
+          "pass": true
+        },
+        {
+          "name": "settings input exits and blur restores navigation",
+          "pass": true
+        },
+        {
+          "name": "settings button Space reserved for native action",
+          "pass": true
+        },
+        {
+          "name": "settings opens without focus event",
+          "pass": true
+        },
+        {
+          "name": "settings section removing focused input restores navigation",
+          "pass": true
+        },
+        {
+          "name": "closing settings restores page scope",
+          "pass": true
+        },
+        {
+          "name": "menu suspends navigation and restores after dismissal",
+          "pass": true
+        },
+        {
+          "name": "listbox suspends navigation and restores after dismissal",
+          "pass": true
+        },
+        {
+          "name": "hidden menu does not suppress navigation",
+          "pass": true
+        },
+        {
+          "name": "nested ordinary modal preserves native operation",
+          "pass": true
+        },
+        {
+          "name": "native dialog blocks underlying settings",
+          "pass": true
+        },
+        {
+          "name": "plugin settings follows same input rule",
+          "pass": true
+        },
+        {
+          "name": "composition suspends navigation until completion",
+          "pass": true
+        },
+        {
+          "name": "composition cancelled by focus leaving input does not strand navigation",
+          "pass": true
+        },
+        {
+          "name": "composition input removed without end restores navigation",
+          "pass": true
+        },
+        {
+          "name": "composition transferred to another input remains content",
+          "pass": true
+        },
+        {
+          "name": "auto-navigation opt-out preserved",
+          "pass": true
+        },
+        {
+          "name": "typing and selection retained across observation",
+          "pass": true
+        },
+        {
+          "name": "focus removal is observed without click",
+          "pass": true
+        },
+        {
+          "name": "unrelated output blocks do not re-read navigation",
+          "pass": true
+        },
+        {
+          "name": "nested menu insertion is observed without focus movement",
+          "pass": true
+        },
+        {
+          "name": "an empty menu becoming visible through children is observed",
+          "pass": true
+        },
+        {
+          "name": "changing input ownership by attribute is observed",
+          "pass": true
+        },
+        {
+          "name": "observer cleanup removes listeners",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "suite": "tool-navigation",
+      "passed": 46,
+      "total": 46,
+      "results": [
+        {
+          "name": "header click returns to navigation: title",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: icon",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: fill",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: toolbar-blank",
+          "pass": true
+        },
+        {
+          "name": "header click returns to navigation: float",
+          "pass": true
+        },
+        {
+          "name": "host selection and autofocus finish before stopped-propagation tab click is handled",
+          "pass": true
+        },
+        {
+          "name": "host replaces selected tab chrome during click without losing the captured navigation intent",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: address",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: rename",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: close",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: add",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: back",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: terminal",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: page",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: body",
+          "pass": true
+        },
+        {
+          "name": "native control/content is not intercepted: outside",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"button\":2}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"button\":1}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"metaKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"ctrlKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"altKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"shiftKey\":true}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"pointerType\":\"touch\"}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"isPrimary\":false}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"detail\":0}",
+          "pass": true
+        },
+        {
+          "name": "non-primary gesture excluded {\"detail\":2}",
+          "pass": true
+        },
+        {
+          "name": "drag that returns to its starting point is still excluded",
+          "pass": true
+        },
+        {
+          "name": "different header on mouse-up is excluded",
+          "pass": true
+        },
+        {
+          "name": "pointercancel cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "dragstart cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "wheel cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "keydown cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "contextmenu cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "dblclick cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "compositionstart cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "another pointerdown cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "host prevented click is respected even after capture",
+          "pass": true
+        },
+        {
+          "name": "host prevented pointerdown is respected",
+          "pass": true
+        },
+        {
+          "name": "new native menu cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "opt-out remains effective",
+          "pass": true
+        },
+        {
+          "name": "session switch cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "removed header cancels queued navigation",
+          "pass": true
+        },
+        {
+          "name": "non-browser form is excluded",
+          "pass": true
+        },
+        {
+          "name": "dispose removes listeners and abandons queued work",
+          "pass": true
+        },
+        {
+          "name": "rename input blocks deferred tool handoff",
+          "pass": true
+        },
+        {
+          "name": "no repeated focus after completed header click",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "suite": "plugin-integration",
+      "passed": 18,
+      "total": 18,
+      "results": [
+        {
+          "name": "initial ready session takes navigation once and releases the session subscription",
+          "pass": true
+        },
+        {
+          "name": "cold session waits for openState, ignores unrelated updates, then completes the handoff",
+          "pass": true
+        },
+        {
+          "name": "session error readiness also completes the one-shot handoff",
+          "pass": true
+        },
+        {
+          "name": "input, repeat, composing, modified and already-handled keys preserve the draft without scans",
+          "pass": true
+        },
+        {
+          "name": "unclaimed Escape returns from the conversation input",
+          "pass": true
+        },
+        {
+          "name": "running conversation retains the native double-Escape path",
+          "pass": true
+        },
+        {
+          "name": "g prefix, cancellation and help remain visible with deduplicated publication",
+          "pass": true
+        },
+        {
+          "name": "menu insertion suspends keys without focus movement and removal resumes navigation",
+          "pass": true
+        },
+        {
+          "name": "settings and nested native modal retain their navigation boundaries",
+          "pass": true
+        },
+        {
+          "name": "composition target removal recovers navigation without a compositionend",
+          "pass": true
+        },
+        {
+          "name": "new terminal waits for writable state and a mounted view (autofocus=false)",
+          "pass": true
+        },
+        {
+          "name": "new terminal waits for writable state and a mounted view (autofocus=true)",
+          "pass": true
+        },
+        {
+          "name": "typing in a different input cancels a pending tool handoff",
+          "pass": true
+        },
+        {
+          "name": "stale tool occurrence cannot complete a pending handoff",
+          "pass": true
+        },
+        {
+          "name": "bracket tab switch and close keep navigation on the remaining current tool",
+          "pass": true
+        },
+        {
+          "name": "disabled auto-navigation can still be entered explicitly",
+          "pass": true
+        },
+        {
+          "name": "no-op clicks do not re-render, while entering a different area still updates the cue",
+          "pass": true
+        },
+        {
+          "name": "dispose removes observers, subscriptions and scheduled work",
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "before": {
+      "idle": {},
+      "output": {
+        "navigationMutationBatch": 100,
+        "navigationRead": 100,
+        "documentQueryAll": 200
+      },
+      "typing": {
+        "navigationRead": 100,
+        "documentQueryAll": 200
+      },
+      "repeat": {
+        "navigationRead": 100,
+        "documentQueryAll": 200
+      },
+      "modifier": {
+        "navigationRead": 100,
+        "documentQueryAll": 200
+      },
+      "click": {
+        "publish": 30,
+        "navigationRead": 50,
+        "documentQueryAll": 100,
+        "columns": 49,
+        "panelRender": 20,
+        "cueRender": 29,
+        "historyRead": 10,
+        "cueMeasure": 19
+      },
+      "session": {
+        "panelRender": 50,
+        "cueRender": 50
+      },
+      "navigation": {
+        "navigationRead": 40,
+        "documentQueryAll": 80,
+        "publish": 40,
+        "panelRender": 40,
+        "cueRender": 67,
+        "navigationMutationBatch": 40,
+        "cueMeasure": 40,
+        "columns": 40
+      },
+      "afterDispose": {}
+    },
+    "after": {
+      "idle": {},
+      "output": {
+        "navigationMutationBatch": 100
+      },
+      "typing": {},
+      "repeat": {},
+      "modifier": {},
+      "click": {
+        "navigationRead": 20,
+        "documentQueryAll": 40,
+        "columns": 20
+      },
+      "session": {},
+      "navigation": {
+        "navigationRead": 40,
+        "documentQueryAll": 80,
+        "publish": 40,
+        "panelRender": 40,
+        "cueRender": 67,
+        "navigationMutationBatch": 40,
+        "cueMeasure": 40,
+        "columns": 40
+      },
+      "afterDispose": {}
+    }
+  },
+  "timings": {
+    "before": [
+      {
+        "idle": {
+          "taskMs": 0.47900000000000026,
+          "scriptMs": 0.009000000000000001,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 83.655,
+          "scriptMs": 15.894000000000002,
+          "layoutMs": 31.676999999999996
+        },
+        "typing": {
+          "taskMs": 14.057,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 13.92800000000001,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 13.849,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 22.13599999999999,
+          "scriptMs": 16.334999999999997,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 10.858000000000006,
+          "scriptMs": 6.058000000000001,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 105.31200000000001,
+          "scriptMs": 14.299,
+          "layoutMs": 32.80299999999999
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.47900000000000026,
+          "scriptMs": 0.010000000000000026,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 107.82,
+          "scriptMs": 18.666,
+          "layoutMs": 44.937
+        },
+        "typing": {
+          "taskMs": 12.814999999999992,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 14.111999999999986,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 14.016999999999975,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 21.982000000000003,
+          "scriptMs": 16.936,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 10.088999999999986,
+          "scriptMs": 4.152000000000003,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 126.16100000000003,
+          "scriptMs": 17.255,
+          "layoutMs": 37.57
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.5009999999999997,
+          "scriptMs": 0.014000000000000016,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 114.83500000000001,
+          "scriptMs": 19.985,
+          "layoutMs": 48.015
+        },
+        "typing": {
+          "taskMs": 11.829999999999979,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 13.944000000000011,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 6.710999999999995,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 9.083000000000007,
+          "scriptMs": 6.4430000000000005,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 7.789999999999991,
+          "scriptMs": 4.4310000000000045,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 94.593,
+          "scriptMs": 13.767999999999995,
+          "layoutMs": 25.023000000000003
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.49599999999999905,
+          "scriptMs": 0.011000000000000051,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 106.33200000000001,
+          "scriptMs": 18.969,
+          "layoutMs": 43.725
+        },
+        "typing": {
+          "taskMs": 14.562000000000005,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 6.4169999999999785,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 8.303000000000004,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 21.54599999999998,
+          "scriptMs": 16.593999999999998,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 11.208999999999996,
+          "scriptMs": 6.4710000000000045,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 92.77299999999997,
+          "scriptMs": 12.449000000000002,
+          "layoutMs": 31.214999999999993
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.5559999999999992,
+          "scriptMs": 0.010000000000000026,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 79.565,
+          "scriptMs": 15.834000000000001,
+          "layoutMs": 31.940000000000005
+        },
+        "typing": {
+          "taskMs": 14.468000000000009,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 6.302000000000002,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 7.296999999999984,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 19.309999999999995,
+          "scriptMs": 14.852,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 9.532000000000012,
+          "scriptMs": 5.538000000000001,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 120.84999999999998,
+          "scriptMs": 17.073999999999998,
+          "layoutMs": 34.358000000000004
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.516,
+          "scriptMs": 0.016000000000000063,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 99.86099999999999,
+          "scriptMs": 18.043,
+          "layoutMs": 39.442
+        },
+        "typing": {
+          "taskMs": 14.665999999999999,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 13.46799999999998,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 13.81300000000002,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 22.310999999999996,
+          "scriptMs": 16.025,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 10.681999999999997,
+          "scriptMs": 6.213999999999997,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 122.41300000000003,
+          "scriptMs": 17.304,
+          "layoutMs": 35.783
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.4869999999999996,
+          "scriptMs": 0.01899999999999992,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 97.873,
+          "scriptMs": 17.978,
+          "layoutMs": 39.013
+        },
+        "typing": {
+          "taskMs": 13.631000000000004,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 13.685000000000002,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 14.056000000000013,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 19.96400000000001,
+          "scriptMs": 15.216999999999999,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 9.350999999999999,
+          "scriptMs": 5.484000000000003,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 86.513,
+          "scriptMs": 12.6,
+          "layoutMs": 21.348
+        }
+      }
+    ],
+    "after": [
+      {
+        "idle": {
+          "taskMs": 0.49200000000000027,
+          "scriptMs": 0.009999999999999972,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 97.005,
+          "scriptMs": 2.0439999999999996,
+          "layoutMs": 49.062000000000005
+        },
+        "typing": {
+          "taskMs": 1.2189999999999979,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.4669999999999952,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.37099999999999633,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 8.48699999999998,
+          "scriptMs": 5.989,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.9909999999999928,
+          "scriptMs": 0.10499999999999919,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 127.44699999999997,
+          "scriptMs": 17.779,
+          "layoutMs": 37.65299999999999
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.5419999999999999,
+          "scriptMs": 0.015999999999999955,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 105.30799999999999,
+          "scriptMs": 2.523,
+          "layoutMs": 50.833999999999996
+        },
+        "typing": {
+          "taskMs": 1.0000000000000009,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.5280000000000007,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.5850000000000022,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 8.339999999999986,
+          "scriptMs": 6.0329999999999995,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.7410000000000203,
+          "scriptMs": 0.085,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 124.52,
+          "scriptMs": 18.063,
+          "layoutMs": 34.188
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.3549999999999994,
+          "scriptMs": 0.01099999999999997,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 53.254999999999995,
+          "scriptMs": 1.3670000000000002,
+          "layoutMs": 25.781
+        },
+        "typing": {
+          "taskMs": 1.0469999999999924,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.4019999999999996,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.5340000000000067,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 5.353999999999997,
+          "scriptMs": 3.732,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.6030000000000073,
+          "scriptMs": 0.09900000000000013,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 119.516,
+          "scriptMs": 17.006,
+          "layoutMs": 36.002
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.4580000000000001,
+          "scriptMs": 0.009000000000000001,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 103.634,
+          "scriptMs": 2.4250000000000003,
+          "layoutMs": 50.353
+        },
+        "typing": {
+          "taskMs": 1.3249999999999929,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.4009999999999986,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.3519999999999912,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 7.576,
+          "scriptMs": 5.658999999999999,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.9540000000000113,
+          "scriptMs": 0.09500000000000133,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 123.25300000000003,
+          "scriptMs": 18.078000000000003,
+          "layoutMs": 35.156
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.4850000000000002,
+          "scriptMs": 0.01299999999999999,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 93.538,
+          "scriptMs": 2.187,
+          "layoutMs": 45.376
+        },
+        "typing": {
+          "taskMs": 1.0539999999999994,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.4800000000000082,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.4870000000000013,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 8.005000000000011,
+          "scriptMs": 5.6339999999999995,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.7830000000000068,
+          "scriptMs": 0.07899999999999921,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 121.31899999999999,
+          "scriptMs": 17.604,
+          "layoutMs": 32.391999999999996
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.4940000000000005,
+          "scriptMs": 0.010999999999999996,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 93.345,
+          "scriptMs": 2.519,
+          "layoutMs": 43.827
+        },
+        "typing": {
+          "taskMs": 1.0259999999999991,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.49699999999999744,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.5379999999999968,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 7.938999999999988,
+          "scriptMs": 5.696,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.8649999999999778,
+          "scriptMs": 0.0939999999999986,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 132.718,
+          "scriptMs": 19.033,
+          "layoutMs": 38.004999999999995
+        }
+      },
+      {
+        "idle": {
+          "taskMs": 0.516,
+          "scriptMs": 0.01600000000000001,
+          "layoutMs": 0
+        },
+        "output": {
+          "taskMs": 93.666,
+          "scriptMs": 2.2680000000000002,
+          "layoutMs": 45.998
+        },
+        "typing": {
+          "taskMs": 1.0189999999999921,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "repeat": {
+          "taskMs": 0.5119999999999986,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "modifier": {
+          "taskMs": 0.5219999999999947,
+          "scriptMs": 0,
+          "layoutMs": 0
+        },
+        "click": {
+          "taskMs": 7.460999999999995,
+          "scriptMs": 5.069,
+          "layoutMs": 0
+        },
+        "session": {
+          "taskMs": 1.6239999999999866,
+          "scriptMs": 0.07399999999999941,
+          "layoutMs": 0
+        },
+        "navigation": {
+          "taskMs": 104.298,
+          "scriptMs": 14.307000000000002,
+          "layoutMs": 32.785
+        }
+      }
+    ]
+  },
+  "errors": [],
+  "scenarios": [
+    {
+      "id": "idle",
+      "label": "空闲 200 ms"
+    },
+    {
+      "id": "output",
+      "label": "100 次无关内容节点新增"
+    },
+    {
+      "id": "typing",
+      "label": "100 次输入区普通按键"
+    },
+    {
+      "id": "repeat",
+      "label": "100 次重复按键"
+    },
+    {
+      "id": "modifier",
+      "label": "100 次带修饰键的按键"
+    },
+    {
+      "id": "click",
+      "label": "10 次同一普通按钮点击"
+    },
+    {
+      "id": "session",
+      "label": "50 次 openState 不变的会话更新"
+    },
+    {
+      "id": "navigation",
+      "label": "20 次 g / Esc 提示开合"
+    }
+  ]
+}

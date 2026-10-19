@@ -23,9 +23,9 @@ export function observeToolHeaderNavigation(doc, { enabled, blocked, headerFor, 
   const cancel = () => { candidate = undefined; win.clearTimeout(timer); };
   const down = event => {
     cancel();
-    if (event.pointerType !== 'mouse' || event.button !== 0 || event.isPrimary === false || modified(event) || !available()) return;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || event.isPrimary === false || modified(event)) return;
     const header = headerFor(event.target);
-    if (header) candidate = { header, id: event.pointerId, x: event.clientX, y: event.clientY, event };
+    if (header && available()) candidate = { header, id: event.pointerId, x: event.clientX, y: event.clientY, event };
   };
   const move = event => {
     if (candidate && (candidate.id !== event.pointerId || Math.hypot(event.clientX - candidate.x, event.clientY - candidate.y) > 4)) cancel();

@@ -58,8 +58,14 @@ export function observeNavigationContext(doc, { read, changed, ignore = () => fa
     ['visibilitychange', refresh], ['compositionstart', start], ['compositionend', end]];
   for (const [type, handler] of events) doc.addEventListener(type, handler, true);
   win.addEventListener('focus', refresh); win.addEventListener('blur', refresh);
+  const overlays = 'dialog, [role="menu"], [role="listbox"], [role="dialog"], [role="alertdialog"]';
   const observer = new win.MutationObserver(records => {
-    if (previous?.active && !previous.active.isConnected || records.some(record => !ignore(record.target))) schedule();
+    // Streaming output and terminal rows do not change input ownership. Keep
+    // removals of the focused control and changes inside/to an overlay live.
+    if (previous?.active && !previous.active.isConnected || records.some(record => !ignore(record.target)
+      && (record.type === 'attributes' || record.target.closest?.(overlays)
+        || [...record.addedNodes, ...record.removedNodes].some(node => node.nodeType === 1
+          && (node.matches(overlays) || node.querySelector(overlays)))))) schedule();
   });
   observer.observe(doc.body, { childList: true, subtree: true, attributes: true,
     attributeFilter: ['open', 'role', 'aria-modal', 'contenteditable', 'disabled', 'inert', 'data-shortcut-modal'] });

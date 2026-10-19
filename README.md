@@ -119,3 +119,22 @@ macOS 官方桌面应用自带的安装入口（普通 npm 安装的 `dsh` 不�
 `src/core.js`：键位校验和序列状态机。`src/client.js`：插件及焦点交接。`src/tool-tabs.js`：工具标签历史、标签顺序和新建交接边界。`src/default-navigation.js`：输入焦点与模态范围的状态观察。`src/tool-navigation.js`：工具顶部点击的导航交接。`src/blank-navigation.js` 保留为 0.1.7 历史回归模块，不再进入构建。`src/styles.css`：独立样式。`scripts/build.mjs` 将它们合成 DSH client 模块；Host 入口为空。
 
 本机 `verification/` 保留早期隔离验证工具、应用截图与安装记录，不上传源码仓库、不进入安装包。仓库中的 `npm test` 不依赖这些本机记录，可独立运行。
+
+### 性能验证
+
+导航观察只在焦点、菜单、弹窗及相关输入属性变化时重算；会话就绪状态仅在等待焦点交接时订阅。重复键、修饰键和内容输入提前让出，不扫描全页；相同导航状态不重复发布。终端延迟挂载仍会唤醒待完成的交接。
+
+`test/browser/` 包含真实浏览器的导航边界、工具顶部点击和插件集成回归。它加载生产代码和生产版 React，以公开宿主接口的隔离夹具验证，不启动或修改日常 DSH。浏览器工具仅用于开发验证，不进入安装包，也不自动安装依赖。
+
+先将 `DSH_PERF_TOOLCHAIN` 指向已有的开发工具目录（提供 `playwright-core`、`esbuild`、`react`、`react-dom`，支持普通 node_modules 和 pnpm 布局），然后运行：
+
+```sh
+npm run test:browser
+npm run perf -- --baseline-ref 1ba92ad --runs 7 --output reports/performance-results.json
+```
+
+macOS 默认使用已安装的 Google Chrome；可通过 `DSH_PERF_BROWSER` 或 `--browser` 指定浏览器可执行文件。也可直接使用 `--toolchain /path/to/toolchain`。`--baseline-root` 可指定基线 Git 仓库，`--candidate` 可指定候选源码目录。
+
+计数和耗时分开测量：计数模式记录导航扫描、全局查询、实际状态发布及渲染；耗时模式运行未插桩代码，使用 CDP 主线程任务耗时，先预热一组，再交替运行基线和候选版本。原始结果保留每轮数据、源码哈希、环境和行为检查。夹具耗时包含事件派发和 DOM 工作，不能等同于日常 DSH 的帧率、内存或整机 CPU 改善。
+
+本次结果见 [性能优化对比报告](reports/performance-2026-10-19.html) 和 [原始数据](reports/performance-2026-10-19.json)。

@@ -27,7 +27,20 @@ window.__ModuleLoader__.load({
         if (loaded.config) { config = loaded.config; storageError = loaded.notice || ""; }
         else storageError = loaded.error;
       } catch { storageError = "无法读取本机设置，本次使用默认键位。"; }
-      const publish = () => { if (alive) { revision++; for (const fn of listeners) fn(); } };
+      let published;
+      const publish = (force = false) => {
+        if (!alive) return;
+        const active = ctx.sidebarRight.active();
+        // Targets are fresh host objects: compare their occurrence and navigation
+        // identity, not the wrapper. A pending view commit can explicitly wake us.
+        const next = [navigating, hints, prefix, area, navigationScope, pending, notice,
+          config, raw, storageError, mounted(), active?.id, active?.kind, active?.contentId,
+          ctx.sidebarRight.isExpanded(), target?.sessionId, target?.paneId, target?.host,
+          target?.tabId, target?.occurrence, target?.navigationRevision];
+        if (!force && published && next.every((value, index) => value === published[index])) return;
+        published = next;
+        revision++; for (const fn of listeners) fn();
+      };
       const subscribe = fn => { listeners.add(fn); return () => listeners.delete(fn); };
       const mounted = () => ctx.sidebarRight.mounted.getSnapshot();
       const tabs = () => ctx.sidebarRight.openTabs.getSnapshot().filter(t => t.sessionId === mounted());
@@ -55,7 +68,11 @@ window.__ModuleLoader__.load({
         notice = text; clearTimeout(noticeTimer); publish();
         noticeTimer = setTimeout(() => { notice = ""; publish(); }, 4200);
       };
-      const cancelPending = () => { pending = undefined; clearTimeout(pendingTimer); publish(); };
+      const cancelPending = () => {
+        clearTimeout(pendingTimer);
+        if (!pending) return;
+        pending = undefined; publish();
+      };
       const rememberArea = element => {
         const focused = ctx.sidebarRight.focusedTarget(element);
         if (focused) {
@@ -250,6 +267,9 @@ window.__ModuleLoader__.load({
           const measure = () => {
             frameId = 0;
             if (stopped) return;
+            if (!navigating || document.hidden || !document.hasFocus()) {
+              resize.disconnect(); observed = []; update(null); return;
+            }
             const layout = columns(), scope = navigationScope, right = !scope && !["conversation", "sidebar"].includes(area);
             let element = scope || layout[area];
             const captured = right && currentTarget();
@@ -398,8 +418,9 @@ window.__ModuleLoader__.load({
         const terminalTab = pending && currentTab?.kind === "terminal" && ctx.sidebarRight.isExpanded() ? currentTab : undefined;
         const model = React.useMemo(() => terminalTab && ctx.webTerminals.view(sessionId, terminalTab.id, terminalTab.contentId), [sessionId, terminalTab?.id, terminalTab?.contentId]);
         const state = React.useSyncExternalStore(fn => model ? model.state.subscribe(fn) : () => {}, () => model?.state.getSnapshot());
-        const session = ctx.sessions.binding(sessionId)?.session;
-        const sessionState = React.useSyncExternalStore(fn => session ? session.subscribe(fn) : () => {}, () => session?.getSnapshot());
+        const session = pending ? ctx.sessions.binding(sessionId)?.session : undefined;
+        const subscribeSession = React.useCallback(fn => session ? session.subscribe(fn) : () => {}, [session]);
+        const openState = React.useSyncExternalStore(subscribeSession, () => session?.getSnapshot().openState);
         const [committed, setCommitted] = React.useState();
         React.useEffect(() => {
           if (!pending || pending.id !== token) return;
@@ -424,13 +445,13 @@ window.__ModuleLoader__.load({
             if (status === "cancel" || context.scope) { cancelPending(); return; }
             if (status === "wait") return;
           }
-          if (sessionId && sessionState?.openState !== "open" && sessionState?.openState !== "error") return;
+          if (sessionId && openState !== "open" && openState !== "error") return;
           if (model && !state?.writable && !["closed", "failed"].includes(state?.phase) && state?.info?.state !== "exited") return;
           // Wait for public readiness and one additional plugin-owned React commit.
           // There is no host focus-ready contract; never chase subsequent focus.
           if (committed !== token) { setCommitted(token); return; }
           take(token);
-        }, [token, sessionId, currentTab?.id, sessionState?.openState, state?.writable, state?.phase, state?.info?.state, committed, revision]);
+        }, [token, sessionId, currentTab?.id, openState, state?.writable, state?.phase, state?.info?.state, committed, revision]);
         const row = returnRow(), available = row?.binding && !row.issue && !row.conflicts?.length;
         const items = COMMANDS.filter(c => {
           const key = config.bindings[c.id];
@@ -492,9 +513,10 @@ window.__ModuleLoader__.load({
           firstNavigation = false;
           if (pending) cancelPending();
         }
+        if (g.composing || g.defaultPrevented || g.repeat || g.control || g.meta || g.alt) return;
+        if (!navigating && g.code !== "Escape" && (isNavigationInput(c.target) || isNavigationContent(c.target))) return;
         const context = navigationObserver?.refresh() || navigationContext();
-        if (["menu", "modal", "inactive", "composition"].includes(context.reason)
-          || g.composing || g.defaultPrevented || g.repeat || g.control || g.meta || g.alt) return;
+        if (["menu", "modal", "inactive", "composition"].includes(context.reason)) return;
         // Modal Escape belongs to the host, except when dismissing our own
         // visible which-key layer (handled before the modal's key handler).
         if (g.code === "Escape" && context.scope) return;
@@ -537,14 +559,17 @@ window.__ModuleLoader__.load({
         return off;
       }, "shortcutter.session");
       ctx.effect(() => {
-        let timer, disposed = false;
+        let timer, disposed = false, inventory;
         const read = () => {
           if (disposed) return;
-          toolHistory.reconcile(ctx.sidebarRight.openTabs.getSnapshot());
+          const nextInventory = ctx.sidebarRight.openTabs.getSnapshot();
+          if (inventory !== nextInventory) {
+            inventory = nextInventory; toolHistory.reconcile(inventory);
+          }
           rememberActiveTool();
           if (!pending && !navigationContext().scope) rememberArea(document.activeElement);
           // Also lets a pending tool handoff observe its committed host pane.
-          publish();
+          publish(!!pending);
         };
         const schedule = () => { clearTimeout(timer); timer = setTimeout(read, 0); };
         const markers = '[data-dockkit-tab], [data-dockkit-pane], [data-dockkit-float], [data-sidebar-right-tab]';
@@ -563,11 +588,14 @@ window.__ModuleLoader__.load({
           schedule();
         };
         const off = ctx.sidebarRight.openTabs.subscribe(schedule);
+        const clicked = event => {
+          if (pending || event.target.closest?.('[data-sidebar-right-session]')) schedule();
+        };
         document.addEventListener("focusin", focused, true);
-        document.addEventListener("click", schedule, true);
+        document.addEventListener("click", clicked, true);
         read();
         return () => { disposed = true; clearTimeout(timer); observer.disconnect(); off();
-          document.removeEventListener("focusin", focused, true); document.removeEventListener("click", schedule, true); };
+          document.removeEventListener("focusin", focused, true); document.removeEventListener("click", clicked, true); };
       }, "shortcutter.tool-history");
       ctx.effect(() => {
         navigationObserver = observeNavigationContext(document, {
@@ -587,7 +615,8 @@ window.__ModuleLoader__.load({
           if (own(event.target)) { inputReset++; return; }
           firstNavigation = false;
           cancelPending(); prefix = ""; hints = false;
-          if (!navigationContext().scope && !["menu", "modal"].includes(navigationContext().reason)) {
+          const context = navigationContext();
+          if (!context.scope && !["menu", "modal"].includes(context.reason)) {
             rememberArea(event.target);
             if (columns().right?.contains(event.target) && !ctx.sidebarRight.focusedTarget(event.target)) {
               area = ctx.sidebarRight.active()?.kind || "right";
